@@ -8,13 +8,6 @@ namespace AlmocoAPI.Models
     public class Grupo
     {
         
-        public Grupo()
-        {
-            this.Membros = new HashSet<Usuario>();
-            this.Restaurantes = new HashSet<Restaurante>();
-        }
-
-
         public long GrupoId { get; set; }
         public string GrupoNome { get; set; }
 
