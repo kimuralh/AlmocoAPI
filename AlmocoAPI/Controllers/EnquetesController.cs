@@ -12,44 +12,44 @@ using AlmocoAPI.Models;
 
 namespace AlmocoAPI.Controllers
 {
-    public class UsuariosController : ApiController
+    public class EnquetesController : ApiController
     {
         private AlmocoAPIContext db = new AlmocoAPIContext();
 
-        // GET: api/Usuarios
-        public IQueryable<Usuario> GetUsuarios()
+        // GET: api/Enquetes
+        public IQueryable<Enquete> GetEnquetes()
         {
-            return db.Usuarios;
+            return db.Enquetes;
         }
 
-        // GET: api/Usuarios/5
-        [ResponseType(typeof(Usuario))]
-        public IHttpActionResult GetUsuario(int id)
+        // GET: api/Enquetes/5
+        [ResponseType(typeof(Enquete))]
+        public IHttpActionResult GetEnquete(int id)
         {
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            Enquete enquete = db.Enquetes.Find(id);
+            if (enquete == null)
             {
                 return NotFound();
             }
 
-            return Ok(usuario);
+            return Ok(enquete);
         }
 
-        // PUT: api/Usuarios/5
+        // PUT: api/Enquetes/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutUsuario(int id, Usuario usuario)
+        public IHttpActionResult PutEnquete(int id, Enquete enquete)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != usuario.UsuarioId)
+            if (id != enquete.EnqueteId)
             {
                 return BadRequest();
             }
 
-            db.Entry(usuario).State = EntityState.Modified;
+            db.Entry(enquete).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +57,7 @@ namespace AlmocoAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UsuarioExists(id))
+                if (!EnqueteExists(id))
                 {
                     return NotFound();
                 }
@@ -70,35 +70,35 @@ namespace AlmocoAPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Usuarios
-        [ResponseType(typeof(Usuario))]
-        public IHttpActionResult PostUsuario(Usuario usuario)
+        // POST: api/Enquetes
+        [ResponseType(typeof(Enquete))]
+        public IHttpActionResult PostEnquete(Enquete enquete)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Usuarios.Add(usuario);
+            db.Enquetes.Add(enquete);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = usuario.UsuarioId }, usuario);
+            return CreatedAtRoute("DefaultApi", new { id = enquete.EnqueteId }, enquete);
         }
 
-        // DELETE: api/Usuarios/5
-        [ResponseType(typeof(Usuario))]
-        public IHttpActionResult DeleteUsuario(int id)
+        // DELETE: api/Enquetes/5
+        [ResponseType(typeof(Enquete))]
+        public IHttpActionResult DeleteEnquete(int id)
         {
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            Enquete enquete = db.Enquetes.Find(id);
+            if (enquete == null)
             {
                 return NotFound();
             }
 
-            db.Usuarios.Remove(usuario);
+            db.Enquetes.Remove(enquete);
             db.SaveChanges();
 
-            return Ok(usuario);
+            return Ok(enquete);
         }
 
         protected override void Dispose(bool disposing)
@@ -110,9 +110,9 @@ namespace AlmocoAPI.Controllers
             base.Dispose(disposing);
         }
 
-        private bool UsuarioExists(int id)
+        private bool EnqueteExists(int id)
         {
-            return db.Usuarios.Count(e => e.UsuarioId == id) > 0;
+            return db.Enquetes.Count(e => e.EnqueteId == id) > 0;
         }
     }
 }

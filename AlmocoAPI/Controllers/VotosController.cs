@@ -12,44 +12,44 @@ using AlmocoAPI.Models;
 
 namespace AlmocoAPI.Controllers
 {
-    public class UsuariosController : ApiController
+    public class VotosController : ApiController
     {
         private AlmocoAPIContext db = new AlmocoAPIContext();
 
-        // GET: api/Usuarios
-        public IQueryable<Usuario> GetUsuarios()
+        // GET: api/Votos
+        public IQueryable<Voto> GetVotos()
         {
-            return db.Usuarios;
+            return db.Votos;
         }
 
-        // GET: api/Usuarios/5
-        [ResponseType(typeof(Usuario))]
-        public IHttpActionResult GetUsuario(int id)
+        // GET: api/Votos/5
+        [ResponseType(typeof(Voto))]
+        public IHttpActionResult GetVoto(int id)
         {
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            Voto voto = db.Votos.Find(id);
+            if (voto == null)
             {
                 return NotFound();
             }
 
-            return Ok(usuario);
+            return Ok(voto);
         }
 
-        // PUT: api/Usuarios/5
+        // PUT: api/Votos/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutUsuario(int id, Usuario usuario)
+        public IHttpActionResult PutVoto(int id, Voto voto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != usuario.UsuarioId)
+            if (id != voto.VotoId)
             {
                 return BadRequest();
             }
 
-            db.Entry(usuario).State = EntityState.Modified;
+            db.Entry(voto).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +57,7 @@ namespace AlmocoAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UsuarioExists(id))
+                if (!VotoExists(id))
                 {
                     return NotFound();
                 }
@@ -70,35 +70,35 @@ namespace AlmocoAPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Usuarios
-        [ResponseType(typeof(Usuario))]
-        public IHttpActionResult PostUsuario(Usuario usuario)
+        // POST: api/Votos
+        [ResponseType(typeof(Voto))]
+        public IHttpActionResult PostVoto(Voto voto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Usuarios.Add(usuario);
+            db.Votos.Add(voto);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = usuario.UsuarioId }, usuario);
+            return CreatedAtRoute("DefaultApi", new { id = voto.VotoId }, voto);
         }
 
-        // DELETE: api/Usuarios/5
-        [ResponseType(typeof(Usuario))]
-        public IHttpActionResult DeleteUsuario(int id)
+        // DELETE: api/Votos/5
+        [ResponseType(typeof(Voto))]
+        public IHttpActionResult DeleteVoto(int id)
         {
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            Voto voto = db.Votos.Find(id);
+            if (voto == null)
             {
                 return NotFound();
             }
 
-            db.Usuarios.Remove(usuario);
+            db.Votos.Remove(voto);
             db.SaveChanges();
 
-            return Ok(usuario);
+            return Ok(voto);
         }
 
         protected override void Dispose(bool disposing)
@@ -110,9 +110,9 @@ namespace AlmocoAPI.Controllers
             base.Dispose(disposing);
         }
 
-        private bool UsuarioExists(int id)
+        private bool VotoExists(int id)
         {
-            return db.Usuarios.Count(e => e.UsuarioId == id) > 0;
+            return db.Votos.Count(e => e.VotoId == id) > 0;
         }
     }
 }

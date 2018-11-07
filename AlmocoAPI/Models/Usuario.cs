@@ -9,7 +9,7 @@ namespace AlmocoAPI.Models
         
         
         [Key]
-        public int UsuarioID { get; set; }
+        public int UsuarioId { get; set; }
 
         public long UsuarioCpf { get; set; }
 
@@ -18,6 +18,8 @@ namespace AlmocoAPI.Models
         public double UsuarioSaldo { get; set; }
 
         public virtual ICollection<Grupo> Grupos { get; set; }
+
+        public virtual ICollection<Voto> Votos { get; set; }
 
 
     }

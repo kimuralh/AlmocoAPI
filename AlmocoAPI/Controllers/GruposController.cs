@@ -12,44 +12,44 @@ using AlmocoAPI.Models;
 
 namespace AlmocoAPI.Controllers
 {
-    public class UsuariosController : ApiController
+    public class GruposController : ApiController
     {
         private AlmocoAPIContext db = new AlmocoAPIContext();
 
-        // GET: api/Usuarios
-        public IQueryable<Usuario> GetUsuarios()
+        // GET: api/Grupos
+        public IQueryable<Grupo> GetGrupos()
         {
-            return db.Usuarios;
+            return db.Grupos;
         }
 
-        // GET: api/Usuarios/5
-        [ResponseType(typeof(Usuario))]
-        public IHttpActionResult GetUsuario(int id)
+        // GET: api/Grupos/5
+        [ResponseType(typeof(Grupo))]
+        public IHttpActionResult GetGrupo(long id)
         {
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            Grupo grupo = db.Grupos.Find(id);
+            if (grupo == null)
             {
                 return NotFound();
             }
 
-            return Ok(usuario);
+            return Ok(grupo);
         }
 
-        // PUT: api/Usuarios/5
+        // PUT: api/Grupos/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutUsuario(int id, Usuario usuario)
+        public IHttpActionResult PutGrupo(long id, Grupo grupo)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != usuario.UsuarioId)
+            if (id != grupo.GrupoId)
             {
                 return BadRequest();
             }
 
-            db.Entry(usuario).State = EntityState.Modified;
+            db.Entry(grupo).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +57,7 @@ namespace AlmocoAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UsuarioExists(id))
+                if (!GrupoExists(id))
                 {
                     return NotFound();
                 }
@@ -70,35 +70,35 @@ namespace AlmocoAPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Usuarios
-        [ResponseType(typeof(Usuario))]
-        public IHttpActionResult PostUsuario(Usuario usuario)
+        // POST: api/Grupos
+        [ResponseType(typeof(Grupo))]
+        public IHttpActionResult PostGrupo(Grupo grupo)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Usuarios.Add(usuario);
+            db.Grupos.Add(grupo);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = usuario.UsuarioId }, usuario);
+            return CreatedAtRoute("DefaultApi", new { id = grupo.GrupoId }, grupo);
         }
 
-        // DELETE: api/Usuarios/5
-        [ResponseType(typeof(Usuario))]
-        public IHttpActionResult DeleteUsuario(int id)
+        // DELETE: api/Grupos/5
+        [ResponseType(typeof(Grupo))]
+        public IHttpActionResult DeleteGrupo(long id)
         {
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            Grupo grupo = db.Grupos.Find(id);
+            if (grupo == null)
             {
                 return NotFound();
             }
 
-            db.Usuarios.Remove(usuario);
+            db.Grupos.Remove(grupo);
             db.SaveChanges();
 
-            return Ok(usuario);
+            return Ok(grupo);
         }
 
         protected override void Dispose(bool disposing)
@@ -110,9 +110,9 @@ namespace AlmocoAPI.Controllers
             base.Dispose(disposing);
         }
 
-        private bool UsuarioExists(int id)
+        private bool GrupoExists(long id)
         {
-            return db.Usuarios.Count(e => e.UsuarioId == id) > 0;
+            return db.Grupos.Count(e => e.GrupoId == id) > 0;
         }
     }
 }

@@ -20,5 +20,15 @@ namespace AlmocoAPI.Models
         }
 
         public System.Data.Entity.DbSet<AlmocoAPI.Models.Usuario> Usuarios { get; set; }
+
+        public System.Data.Entity.DbSet<AlmocoAPI.Models.Restaurante> Restaurantes { get; set; }
+
+        public System.Data.Entity.DbSet<AlmocoAPI.Models.Voto> Votos { get; set; }
+
+        public System.Data.Entity.DbSet<AlmocoAPI.Models.Grupo> Grupos { get; set; }
+
+        public System.Data.Entity.DbSet<AlmocoAPI.Models.Enquete> Enquetes { get; set; }
+
+
     }
 }

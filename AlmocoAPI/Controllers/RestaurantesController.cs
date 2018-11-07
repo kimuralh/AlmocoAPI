@@ -12,44 +12,44 @@ using AlmocoAPI.Models;
 
 namespace AlmocoAPI.Controllers
 {
-    public class UsuariosController : ApiController
+    public class RestaurantesController : ApiController
     {
         private AlmocoAPIContext db = new AlmocoAPIContext();
 
-        // GET: api/Usuarios
-        public IQueryable<Usuario> GetUsuarios()
+        // GET: api/Restaurantes
+        public IQueryable<Restaurante> GetRestaurantes()
         {
-            return db.Usuarios;
+            return db.Restaurantes;
         }
 
-        // GET: api/Usuarios/5
-        [ResponseType(typeof(Usuario))]
-        public IHttpActionResult GetUsuario(int id)
+        // GET: api/Restaurantes/5
+        [ResponseType(typeof(Restaurante))]
+        public IHttpActionResult GetRestaurante(int id)
         {
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            Restaurante restaurante = db.Restaurantes.Find(id);
+            if (restaurante == null)
             {
                 return NotFound();
             }
 
-            return Ok(usuario);
+            return Ok(restaurante);
         }
 
-        // PUT: api/Usuarios/5
+        // PUT: api/Restaurantes/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutUsuario(int id, Usuario usuario)
+        public IHttpActionResult PutRestaurante(int id, Restaurante restaurante)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != usuario.UsuarioId)
+            if (id != restaurante.RestauranteId)
             {
                 return BadRequest();
             }
 
-            db.Entry(usuario).State = EntityState.Modified;
+            db.Entry(restaurante).State = EntityState.Modified;
 
             try
             {
@@ -57,7 +57,7 @@ namespace AlmocoAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UsuarioExists(id))
+                if (!RestauranteExists(id))
                 {
                     return NotFound();
                 }
@@ -70,35 +70,35 @@ namespace AlmocoAPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Usuarios
-        [ResponseType(typeof(Usuario))]
-        public IHttpActionResult PostUsuario(Usuario usuario)
+        // POST: api/Restaurantes
+        [ResponseType(typeof(Restaurante))]
+        public IHttpActionResult PostRestaurante(Restaurante restaurante)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Usuarios.Add(usuario);
+            db.Restaurantes.Add(restaurante);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = usuario.UsuarioId }, usuario);
+            return CreatedAtRoute("DefaultApi", new { id = restaurante.RestauranteId }, restaurante);
         }
 
-        // DELETE: api/Usuarios/5
-        [ResponseType(typeof(Usuario))]
-        public IHttpActionResult DeleteUsuario(int id)
+        // DELETE: api/Restaurantes/5
+        [ResponseType(typeof(Restaurante))]
+        public IHttpActionResult DeleteRestaurante(int id)
         {
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            Restaurante restaurante = db.Restaurantes.Find(id);
+            if (restaurante == null)
             {
                 return NotFound();
             }
 
-            db.Usuarios.Remove(usuario);
+            db.Restaurantes.Remove(restaurante);
             db.SaveChanges();
 
-            return Ok(usuario);
+            return Ok(restaurante);
         }
 
         protected override void Dispose(bool disposing)
@@ -110,9 +110,9 @@ namespace AlmocoAPI.Controllers
             base.Dispose(disposing);
         }
 
-        private bool UsuarioExists(int id)
+        private bool RestauranteExists(int id)
         {
-            return db.Usuarios.Count(e => e.UsuarioId == id) > 0;
+            return db.Restaurantes.Count(e => e.RestauranteId == id) > 0;
         }
     }
 }

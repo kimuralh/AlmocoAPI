@@ -102,7 +102,11 @@
   <ItemGroup>
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\EnquetesController.cs" />
+    <Compile Include="Controllers\GruposController.cs" />
+    <Compile Include="Controllers\RestaurantesController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
+    <Compile Include="Controllers\VotosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -111,6 +115,7 @@
     <Compile Include="Models\Grupo.cs" />
     <Compile Include="Models\Restaurante.cs" />
     <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Models\Enquete.cs" />
     <Compile Include="Models\Voto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
