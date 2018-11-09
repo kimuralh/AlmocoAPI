@@ -17,6 +17,8 @@ namespace AlmocoAPI.Models
 
         public double UsuarioSaldo { get; set; }
 
+        public string UsuarioEmail { get; set; }
+
         public virtual ICollection<Grupo> Grupos { get; set; }
 
         public virtual ICollection<Voto> Votos { get; set; }

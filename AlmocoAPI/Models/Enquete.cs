@@ -9,7 +9,7 @@ namespace AlmocoAPI.Models
     public class Enquete
     {
         [Key]
-        public int EnqueteId { get; set; }
+        public int EnqueteId { get; set; }  
 
         public Grupo Grupo { get; set; }
 

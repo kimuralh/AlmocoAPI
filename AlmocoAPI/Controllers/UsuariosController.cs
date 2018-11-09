@@ -17,10 +17,27 @@ namespace AlmocoAPI.Controllers
         private AlmocoAPIContext db = new AlmocoAPIContext();
 
         // GET: api/Usuarios
+        public IQueryable<UsuarioCapenga> GetUsuarios()
+        {
+            var usuarios = from u in db.Usuarios
+                           select new UsuarioCapenga()
+                           {
+                               UsuarioId = u.UsuarioId,
+                               UsuarioCpf = u.UsuarioCpf,
+                               UsuarioNome = u.UsuarioNome,
+                               UsuarioSaldo = u.UsuarioSaldo,
+                               UsuarioEmail = u.UsuarioEmail
+                           };
+
+            return usuarios;
+        }
+        /*
         public IQueryable<Usuario> GetUsuarios()
         {
             return db.Usuarios;
         }
+        */
+
 
         // GET: api/Usuarios/5
         [ResponseType(typeof(Usuario))]
@@ -71,13 +88,24 @@ namespace AlmocoAPI.Controllers
         }
 
         // POST: api/Usuarios
-        [ResponseType(typeof(Usuario))]
-        public IHttpActionResult PostUsuario(Usuario usuario)
+        //[ResponseType(typeof(Usuario))]
+        [ResponseType(typeof(UsuarioCapenga))]
+        public IHttpActionResult PostUsuario(UsuarioCapenga usuariocapenga)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            Usuario usuario = new Usuario()
+            {
+
+                UsuarioCpf = usuariocapenga.UsuarioCpf,
+                UsuarioNome = usuariocapenga.UsuarioNome,
+                UsuarioSaldo = usuariocapenga.UsuarioSaldo,
+                UsuarioEmail = usuariocapenga.UsuarioEmail
+
+            };
 
             db.Usuarios.Add(usuario);
             db.SaveChanges();
