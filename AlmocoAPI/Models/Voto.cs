@@ -12,9 +12,14 @@ namespace AlmocoAPI.Models
         [Key]
         public int VotoId { get; set; }
 
+        [Required]
         public Usuario Usuario { get; set; }
 
+        [Required]
         public Restaurante Restaurante { get; set; }
+
+        [Required]
+        public Enquete Enquete { get; set; }
 
 
     }

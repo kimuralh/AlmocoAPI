@@ -13,7 +13,8 @@ namespace AlmocoAPI
 
             // Web API routes
             config.MapHttpAttributeRoutes();
-
+            //linha de baixo para evitar chamadas recursivas de grupos -> usuarios -> grupos por exemplo
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",

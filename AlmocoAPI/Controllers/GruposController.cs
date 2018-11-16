@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using AlmocoAPI.Models;
+using AlmocoAPI.Repositories;
 
 namespace AlmocoAPI.Controllers
 {
@@ -17,9 +18,18 @@ namespace AlmocoAPI.Controllers
         private AlmocoAPIContext db = new AlmocoAPIContext();
 
         // GET: api/Grupos
-        public IQueryable<Grupo> GetGrupos()
+        public IEnumerable<Grupo> GetGrupos()
         {
-            return db.Grupos;
+            
+            var unitOfWork = new UnitOfWork(new AlmocoAPIContext());
+
+            var grupos = unitOfWork.Grupos.GetAll();
+
+            unitOfWork.Complete();
+
+            return grupos;
+
+
         }
 
         // GET: api/Grupos/5

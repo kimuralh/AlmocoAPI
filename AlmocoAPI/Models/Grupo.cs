@@ -11,6 +11,7 @@ namespace AlmocoAPI.Models
         [Key]
         public long GrupoId { get; set; }
 
+        [Required]
         public string GrupoNome { get; set; }
 
         public virtual ICollection<Usuario> Membros { get; set; }

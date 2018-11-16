@@ -11,11 +11,12 @@ namespace AlmocoAPI.Models
         [Key]
         public int EnqueteId { get; set; }  
 
+        [Required]
         public Grupo Grupo { get; set; }
 
         public virtual ICollection<Restaurante> Restaurantes { get; set; }
         public virtual ICollection<Voto> Votos { get; set; }
-        public Restaurante VencedorAtual { get; set; }
+        //public Restaurante VencedorAtual { get; set; }
         public bool Status { get; set; }
     }
    

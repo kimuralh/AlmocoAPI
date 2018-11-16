@@ -7,13 +7,13 @@ namespace AlmocoAPI.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class MudancaUsuario : IMigrationMetadata
+    public sealed partial class MudancaNxNRestauranteEnqueteFinal2 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(MudancaUsuario));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(MudancaNxNRestauranteEnqueteFinal2));
         
         string IMigrationMetadata.Id
         {
-            get { return "201811081715305_MudancaUsuario"; }
+            get { return "201811141600436_MudancaNxNRestauranteEnqueteFinal2"; }
         }
         
         string IMigrationMetadata.Source

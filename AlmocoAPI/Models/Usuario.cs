@@ -11,8 +11,10 @@ namespace AlmocoAPI.Models
         [Key]
         public int UsuarioId { get; set; }
 
+        [Required]
         public long UsuarioCpf { get; set; }
 
+        [Required]
         public string UsuarioNome { get; set; }
 
         public double UsuarioSaldo { get; set; }

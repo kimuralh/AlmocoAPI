@@ -109,33 +109,43 @@
     <Compile Include="Controllers\RestaurantesController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Controllers\VotosController.cs" />
+    <Compile Include="Domain\EnqueteService.cs" />
+    <Compile Include="Domain\GrupoService.cs" />
+    <Compile Include="Domain\RestauranteService.cs" />
+    <Compile Include="Domain\UsuarioService.cs" />
+    <Compile Include="Domain\VotoService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201811071548534_MudancasGerais.cs" />
-    <Compile Include="Migrations\201811071548534_MudancasGerais.Designer.cs">
-      <DependentUpon>201811071548534_MudancasGerais.cs</DependentUpon>
+    <Compile Include="Migrations\201811141531308_MudancaNxNRestauranteEnqueteFinal.cs" />
+    <Compile Include="Migrations\201811141531308_MudancaNxNRestauranteEnqueteFinal.Designer.cs">
+      <DependentUpon>201811141531308_MudancaNxNRestauranteEnqueteFinal.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201811081715305_MudancaUsuario.cs" />
-    <Compile Include="Migrations\201811081715305_MudancaUsuario.Designer.cs">
-      <DependentUpon>201811081715305_MudancaUsuario.cs</DependentUpon>
+    <Compile Include="Migrations\201811141600436_MudancaNxNRestauranteEnqueteFinal2.cs" />
+    <Compile Include="Migrations\201811141600436_MudancaNxNRestauranteEnqueteFinal2.Designer.cs">
+      <DependentUpon>201811141600436_MudancaNxNRestauranteEnqueteFinal2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AlmocoAPIContext.cs" />
     <Compile Include="Models\Grupo.cs" />
+    <Compile Include="DTO\GrupoRetorno.cs" />
     <Compile Include="Models\Restaurante.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\Enquete.cs" />
-    <Compile Include="Models\UsuarioCapenga.cs" />
+    <Compile Include="DTO\UsuarioCadastro.cs" />
+    <Compile Include="DTO\UsuarioRetorno.cs" />
+    <Compile Include="DTO\UsuarioRetornoGrupo.cs" />
     <Compile Include="Models\Voto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Implementation\EnqueteRepository.cs" />
     <Compile Include="Repositories\Implementation\GrupoRepository.cs" />
+    <Compile Include="Repositories\Implementation\Repository.cs" />
     <Compile Include="Repositories\Implementation\RestauranteRepository.cs" />
     <Compile Include="Repositories\Implementation\UsuarioRepository.cs" />
     <Compile Include="Repositories\Implementation\VotoRepository.cs" />
     <Compile Include="Repositories\Interface\IEnqueteRepository.cs" />
     <Compile Include="Repositories\Interface\IGrupoRepository.cs" />
+    <Compile Include="Repositories\Interface\IRepository.cs" />
     <Compile Include="Repositories\Interface\IRestauranteRepository.cs" />
     <Compile Include="Repositories\Interface\IUsuarioRepository.cs" />
     <Compile Include="Repositories\Interface\IVotoRepository.cs" />
@@ -155,11 +165,11 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201811071548534_MudancasGerais.resx">
-      <DependentUpon>201811071548534_MudancasGerais.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811141531308_MudancaNxNRestauranteEnqueteFinal.resx">
+      <DependentUpon>201811141531308_MudancaNxNRestauranteEnqueteFinal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201811081715305_MudancaUsuario.resx">
-      <DependentUpon>201811081715305_MudancaUsuario.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201811141600436_MudancaNxNRestauranteEnqueteFinal2.resx">
+      <DependentUpon>201811141600436_MudancaNxNRestauranteEnqueteFinal2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

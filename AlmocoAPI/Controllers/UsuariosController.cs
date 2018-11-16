@@ -8,7 +8,9 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using AlmocoAPI.Domain;
 using AlmocoAPI.Models;
+using AlmocoAPI.Repositories;
 
 namespace AlmocoAPI.Controllers
 {
@@ -16,21 +18,31 @@ namespace AlmocoAPI.Controllers
     {
         private AlmocoAPIContext db = new AlmocoAPIContext();
 
+        private UsuarioService usuarioService;
+        
         // GET: api/Usuarios
-        public IQueryable<UsuarioCapenga> GetUsuarios()
+        public IEnumerable<UsuarioRetorno> GetUsuarios()
         {
-            var usuarios = from u in db.Usuarios
-                           select new UsuarioCapenga()
-                           {
-                               UsuarioId = u.UsuarioId,
-                               UsuarioCpf = u.UsuarioCpf,
-                               UsuarioNome = u.UsuarioNome,
-                               UsuarioSaldo = u.UsuarioSaldo,
-                               UsuarioEmail = u.UsuarioEmail
-                           };
+            this.usuarioService = new UsuarioService();
+            return this.usuarioService.Get();
 
-            return usuarios;
+            //var usuarios = from u in db.Usuarios
+
+
+            /*
+            var unitOfWork = new UnitOfWork(new AlmocoAPIContext());
+
+            var usuarios = from u in unitOfWork.Usuarios.GetAll()
+
+                           select new UsuarioRetorno(u);
+                               
+            unitOfWork.Complete();
+            */
+            //return usuarios;
+
+
         }
+
         /*
         public IQueryable<Usuario> GetUsuarios()
         {
@@ -40,16 +52,20 @@ namespace AlmocoAPI.Controllers
 
 
         // GET: api/Usuarios/5
-        [ResponseType(typeof(Usuario))]
+        [ResponseType(typeof(UsuarioRetorno))]
         public IHttpActionResult GetUsuario(int id)
         {
-            Usuario usuario = db.Usuarios.Find(id);
+            var unitOfWork = new UnitOfWork(new AlmocoAPIContext());
+            var usuario = unitOfWork.Usuarios.Get(id);
             if (usuario == null)
             {
                 return NotFound();
             }
-
-            return Ok(usuario);
+            //var usuarioretorno = new UsuarioRetorno(usuario);
+            
+            var usuarioretorno = new UsuarioRetornoGrupo(usuario);
+            unitOfWork.Complete();
+            return Ok(usuarioretorno);
         }
 
         // PUT: api/Usuarios/5
@@ -89,8 +105,8 @@ namespace AlmocoAPI.Controllers
 
         // POST: api/Usuarios
         //[ResponseType(typeof(Usuario))]
-        [ResponseType(typeof(UsuarioCapenga))]
-        public IHttpActionResult PostUsuario(UsuarioCapenga usuariocapenga)
+        [ResponseType(typeof(UsuarioCadastro))]
+        public IHttpActionResult PostUsuario(UsuarioCadastro usuariocadastro)
         {
             if (!ModelState.IsValid)
             {
@@ -100,10 +116,10 @@ namespace AlmocoAPI.Controllers
             Usuario usuario = new Usuario()
             {
 
-                UsuarioCpf = usuariocapenga.UsuarioCpf,
-                UsuarioNome = usuariocapenga.UsuarioNome,
-                UsuarioSaldo = usuariocapenga.UsuarioSaldo,
-                UsuarioEmail = usuariocapenga.UsuarioEmail
+                UsuarioCpf = usuariocadastro.UsuarioCpf,
+                UsuarioNome = usuariocadastro.UsuarioNome,
+                UsuarioSaldo = usuariocadastro.UsuarioSaldo,
+                UsuarioEmail = usuariocadastro.UsuarioEmail
 
             };
 

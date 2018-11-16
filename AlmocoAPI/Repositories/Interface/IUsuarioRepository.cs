@@ -1,11 +1,13 @@
-﻿using System;
+﻿using AlmocoAPI.Models;
+using AlmocoAPI.Repositories.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace AlmocoAPI.Repositories.Implementation
 {
-    public class IUsuarioRepository
+    public interface IUsuarioRepository : IRepository<Usuario>
     {
     }
 }
