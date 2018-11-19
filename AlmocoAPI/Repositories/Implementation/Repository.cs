@@ -17,21 +17,6 @@ namespace AlmocoAPI.Repositories.Implementation
             Context = context;
         }
 
-        public void Add(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddRange(IEnumerable<TEntity> entities)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
-        {
-            throw new NotImplementedException();
-        }
-
         public TEntity Get(int id)
         {
             return Context.Set<TEntity>().Find(id);
@@ -42,14 +27,34 @@ namespace AlmocoAPI.Repositories.Implementation
             return Context.Set<TEntity>().ToList();
         }
 
+        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
+        {
+            return Context.Set<TEntity>().Where(predicate);
+        }
+
+        public TEntity SingleOrDefault(Expression<Func<TEntity, bool>> predicate)
+        {
+            return Context.Set<TEntity>().SingleOrDefault(predicate);
+        }
+
+        public void Add(TEntity entity)
+        {
+            Context.Set<TEntity>().Add(entity);
+        }
+
+        public void AddRange(IEnumerable<TEntity> entities)
+        {
+            Context.Set<TEntity>().AddRange(entities);
+        }
+
         public void Remove(TEntity entity)
         {
-            throw new NotImplementedException();
+            Context.Set<TEntity>().Remove(entity);
         }
 
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
-            throw new NotImplementedException();
+            Context.Set<TEntity>().RemoveRange(entities);
         }
     }
 }

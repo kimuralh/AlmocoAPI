@@ -33,7 +33,7 @@ namespace AlmocoAPI
                         // additional fields by chaining methods off SingleApiVersion.
                         //
                         c.SingleApiVersion("v1", "AlmocoAPI");
-
+                        c.IncludeXmlComments(GetXmlCommentsPath());
                         // If you want the output Swagger docs to be indented properly, enable the "PrettyPrint" option.
                         //
                         //c.PrettyPrint();
@@ -250,6 +250,10 @@ namespace AlmocoAPI
                         //
                         //c.EnableApiKeySupport("apiKey", "header");
                     });
+        }
+        protected static string GetXmlCommentsPath()
+        {
+            return System.String.Format(@"{0}\bin\AlmocoAPI.xml", System.AppDomain.CurrentDomain.BaseDirectory);
         }
     }
 }

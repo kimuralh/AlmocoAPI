@@ -7,5 +7,7 @@ namespace AlmocoAPI.Domain
 {
     public class RestauranteService
     {
+        //public Resposta RegistraVisita(Restaurante restaurante, float precoRefeicao?)
+        
     }
 }

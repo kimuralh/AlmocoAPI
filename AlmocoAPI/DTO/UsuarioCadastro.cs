@@ -15,5 +15,19 @@ namespace AlmocoAPI.Models
 
         public string UsuarioEmail { get; set; }
 
+        public UsuarioCadastro()
+        {
+
+        }
+
+        public UsuarioCadastro(Usuario usuario)
+        {
+           
+            UsuarioCpf = usuario.UsuarioCpf;
+            UsuarioNome = usuario.UsuarioNome;
+            UsuarioSaldo = usuario.UsuarioSaldo;
+            UsuarioEmail = usuario.UsuarioEmail;
+        }
+        
     }
 }

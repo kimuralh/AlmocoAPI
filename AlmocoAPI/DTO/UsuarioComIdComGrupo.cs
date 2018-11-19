@@ -5,7 +5,7 @@ using System.Web;
 
 namespace AlmocoAPI.Models
 {
-    public class UsuarioRetornoGrupo
+    public class UsuarioComIdComGrupo
     {
         public int UsuarioId { get; set; }
 
@@ -19,7 +19,7 @@ namespace AlmocoAPI.Models
 
         public virtual IEnumerable<GrupoRetorno> Grupos { get; set; }
 
-        public UsuarioRetornoGrupo(Usuario usuario)
+        public UsuarioComIdComGrupo(Usuario usuario)
         {
             UsuarioId = usuario.UsuarioId;
             UsuarioCpf = usuario.UsuarioCpf;
@@ -31,5 +31,10 @@ namespace AlmocoAPI.Models
                          select new GrupoRetorno(u);
             Grupos = grupos;
         }
+        public UsuarioComIdComGrupo()
+        {
+
+        }
+      
     }
 }

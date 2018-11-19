@@ -5,7 +5,7 @@ using System.Web;
 
 namespace AlmocoAPI.Models
 {
-    public class UsuarioRetorno
+    public class UsuarioComId
     {
         public int UsuarioId { get; set; }
 
@@ -17,7 +17,12 @@ namespace AlmocoAPI.Models
 
         public string UsuarioEmail { get; set; }
 
-        public UsuarioRetorno(Usuario usuario)
+        public UsuarioComId()
+        {
+
+        }
+
+        public UsuarioComId(Usuario usuario)
         {
             UsuarioId = usuario.UsuarioId;
             UsuarioCpf = usuario.UsuarioCpf;

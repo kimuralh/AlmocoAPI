@@ -11,6 +11,11 @@ namespace AlmocoAPI.Models
 
         public string GrupoNome { get; set; }
 
+        public GrupoRetorno()
+        {
+
+        }
+
         public GrupoRetorno(Grupo grupo)
         {
             GrupoId = grupo.GrupoId;

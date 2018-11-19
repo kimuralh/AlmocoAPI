@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using AlmocoAPI.Domain;
 using AlmocoAPI.Models;
+
 using AlmocoAPI.Repositories;
 
 namespace AlmocoAPI.Controllers
@@ -19,12 +20,28 @@ namespace AlmocoAPI.Controllers
         private AlmocoAPIContext db = new AlmocoAPIContext();
 
         private UsuarioService usuarioService;
-        
+
+        /* exemplo de cabecalho
+        [HttpPost]
+        [Route("monitorar/{idEstabelecimento}")]
+        [SwaggerResponse((int)HttpStatusCode.OK, Type = typeof(ActionResultModel))]
+        */
+
+
+
+
+        ///
+        /// <summary>
+        /// 	Retorna todos os usuários com menos detalhes
+        /// </summary>
+        ///
         // GET: api/Usuarios
-        public IEnumerable<UsuarioRetorno> GetUsuarios()
+        [HttpGet]
+        [Route("usuarios")]
+        public IEnumerable<UsuarioComId> GetUsuarios()
         {
             this.usuarioService = new UsuarioService();
-            return this.usuarioService.Get();
+            return this.usuarioService.GetUsuarios();
 
             //var usuarios = from u in db.Usuarios
 
@@ -34,13 +51,11 @@ namespace AlmocoAPI.Controllers
 
             var usuarios = from u in unitOfWork.Usuarios.GetAll()
 
-                           select new UsuarioRetorno(u);
+                           select new UsuarioComId(u);
                                
             unitOfWork.Complete();
             */
-            //return usuarios;
-
-
+        //return usuarios;
         }
 
         /*
@@ -50,28 +65,40 @@ namespace AlmocoAPI.Controllers
         }
         */
 
-
+        ///
+        /// <summary>
+        /// 	Retorna o Usuário com o respectivo id, junto com os grupos aos quais pertence
+        /// </summary>
+        ///
         // GET: api/Usuarios/5
-        [ResponseType(typeof(UsuarioRetorno))]
-        public IHttpActionResult GetUsuario(int id)
+        [HttpGet]
+        [Route("usuarios/{idUsuario}")]
+        [ResponseType(typeof(UsuarioComId))]
+        public IHttpActionResult GetUsuario(int idUsuario)
         {
-            var unitOfWork = new UnitOfWork(new AlmocoAPIContext());
-            var usuario = unitOfWork.Usuarios.Get(id);
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-            //var usuarioretorno = new UsuarioRetorno(usuario);
-            
-            var usuarioretorno = new UsuarioRetornoGrupo(usuario);
-            unitOfWork.Complete();
-            return Ok(usuarioretorno);
+            this.usuarioService = new UsuarioService();
+            return Ok(this.usuarioService.GetUsuario(idUsuario));
+
         }
 
+        ///
+        /// <summary>
+        /// 	Atualiza as informações de um usuário com o respectivo id
+        /// </summary>
+        ///
         // PUT: api/Usuarios/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutUsuario(int id, Usuario usuario)
+        [HttpPut]
+        [Route("usuarios/{idUsuario}")]
+        public IHttpActionResult PutUsuario(int idUsuario, [FromBody] UsuarioCadastro usuario)
         {
+            this.usuarioService = new UsuarioService();
+            var resultado = this.usuarioService.PutUsuario(idUsuario, usuario);
+            if (resultado)
+            {
+                return Content(HttpStatusCode.OK,"Usuario Alterado com sucesso");
+            }
+            return Content(HttpStatusCode.BadRequest, "Não foi possivel alterar este usuario");
+            /*
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -99,19 +126,28 @@ namespace AlmocoAPI.Controllers
                     throw;
                 }
             }
+            */
 
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        ///
+        /// <summary>
+        /// 	Cadastra um usuário de posse das informações de cadastro
+        /// </summary>
+        ///
         // POST: api/Usuarios
         //[ResponseType(typeof(Usuario))]
         [ResponseType(typeof(UsuarioCadastro))]
         public IHttpActionResult PostUsuario(UsuarioCadastro usuariocadastro)
         {
-            if (!ModelState.IsValid)
+            this.usuarioService = new UsuarioService();
+            var resultado = this.usuarioService.PostUsuario(usuariocadastro);
+            if (resultado != false)
             {
-                return BadRequest(ModelState);
+                return Content(HttpStatusCode.OK, "Usuario cadastrado com sucesso");
             }
+            return Content(HttpStatusCode.BadRequest, "Não foi possivel cadastrar este usuario, CPF já existente");
 
             Usuario usuario = new Usuario()
             {
@@ -145,18 +181,7 @@ namespace AlmocoAPI.Controllers
             return Ok(usuario);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool UsuarioExists(int id)
-        {
-            return db.Usuarios.Count(e => e.UsuarioId == id) > 0;
-        }
+        
+        
     }
 }
