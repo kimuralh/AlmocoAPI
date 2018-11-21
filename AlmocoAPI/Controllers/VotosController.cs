@@ -8,111 +8,122 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using AlmocoAPI.Domain;
+using AlmocoAPI.DTO;
 using AlmocoAPI.Models;
 
 namespace AlmocoAPI.Controllers
 {
+
+    ///
+    /// <summary>
+    /// 	Controller responsável pelas ações de voto
+    /// </summary>
+    ///
     public class VotosController : ApiController
     {
         private AlmocoAPIContext db = new AlmocoAPIContext();
-
-        // GET: api/Votos
-        public IQueryable<Voto> GetVotos()
+        private VotoService votoService;
+        ///
+        /// <summary>
+        /// 	Retorna todos os votos
+        /// </summary>
+        ///
+        // GET: api/votos
+        [HttpGet]
+        [Route("votos")]
+        public IEnumerable<VotoSimples> GetVotos()
         {
-            return db.Votos;
+            this.votoService = new VotoService();
+            return this.votoService.GetVotos();
         }
 
+
+        ///
+        /// <summary>
+        /// 	Retorna um voto com detalhes
+        /// </summary>
+        ///
         // GET: api/Votos/5
-        [ResponseType(typeof(Voto))]
-        public IHttpActionResult GetVoto(int id)
+        [HttpGet]
+        [Route("votos/{idVoto}")]
+        [ResponseType(typeof(VotoSimples))]
+        public VotoSimples GetVoto(int idVoto)
         {
-            Voto voto = db.Votos.Find(id);
-            if (voto == null)
-            {
-                return NotFound();
-            }
 
-            return Ok(voto);
+            this.votoService = new VotoService();
+            return this.votoService.GetVoto(idVoto);
+
         }
 
+        ///
+        /// <summary>
+        /// 	Retorna os votos registrados de um usuario
+        /// </summary>
+        ///
+        // GET: api/Votos/5
+        [HttpGet]
+        [Route("usuarios/{idUsuario}/votos")]
+        [ResponseType(typeof(VotoSimples))]
+        public IEnumerable<VotoSimples> GetVotosUsuario(int idUsuario)
+        {
+
+            this.votoService = new VotoService();
+            return this.votoService.GetVotosUsuario(idUsuario);
+
+        }
+
+        ///
+        /// <summary>
+        /// 	Altera um dos votos de um usuario
+        /// </summary>
+        ///
         // PUT: api/Votos/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutVoto(int id, Voto voto)
+        //tem que ser tudo identico exceto o restaurante votado
+        [HttpPut]
+        [Route("votos")]
+        public IHttpActionResult PutVoto([FromBody] VotoAlterado voto)
         {
-            if (!ModelState.IsValid)
+            this.votoService = new VotoService();
+            var resultado = this.votoService.PutVoto(voto);
+            if (resultado)
             {
-                return BadRequest(ModelState);
+                return Content(HttpStatusCode.OK, "Voto Alterado com sucesso");
             }
-
-            if (id != voto.VotoId)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(voto).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!VotoExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            return Content(HttpStatusCode.BadRequest, "Não foi possivel alterar este voto");
         }
 
-        // POST: api/Votos
-        [ResponseType(typeof(Voto))]
-        public IHttpActionResult PostVoto(Voto voto)
+        ///
+        /// <summary>
+        /// 	Registra um voto
+        /// </summary>
+        ///
+            // POST: api/Votos
+        [HttpPost]
+        [Route("Enquete/")]
+
+        public IHttpActionResult PostVoto(VotoCadastro voto)
         {
-            if (!ModelState.IsValid)
+
+            this.votoService = new VotoService();
+            var resultado = this.votoService.PostVoto(voto);
+
+            if (resultado)
             {
-                return BadRequest(ModelState);
+                return Content(HttpStatusCode.OK, "Voto Cadastrado com sucesso");
             }
+            return Content(HttpStatusCode.BadRequest, "Não foi possivel votar nesta enquete");
+            
 
-            db.Votos.Add(voto);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = voto.VotoId }, voto);
         }
 
+        ///
+        /// <summary>
+        /// 	Deleta um voto
+        /// </summary>
+        ///
         // DELETE: api/Votos/5
-        [ResponseType(typeof(Voto))]
-        public IHttpActionResult DeleteVoto(int id)
-        {
-            Voto voto = db.Votos.Find(id);
-            if (voto == null)
-            {
-                return NotFound();
-            }
 
-            db.Votos.Remove(voto);
-            db.SaveChanges();
-
-            return Ok(voto);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool VotoExists(int id)
-        {
-            return db.Votos.Count(e => e.VotoId == id) > 0;
-        }
     }
+
 }

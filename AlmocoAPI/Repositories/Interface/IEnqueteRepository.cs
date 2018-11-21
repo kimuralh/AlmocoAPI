@@ -9,5 +9,6 @@ namespace AlmocoAPI.Repositories.Implementation
 {
     public interface IEnqueteRepository : IRepository<Enquete>
     {
+        //Boolean EncerraEnquete(int idEnquete);
     }
 }

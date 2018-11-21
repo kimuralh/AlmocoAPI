@@ -66,10 +66,10 @@ namespace AlmocoAPI.Domain
             
             else if (usuarioId == usuarioBanco.UsuarioId)
             {
-                usuarioBanco.UsuarioNome = usuarioAlterado.UsuarioNome;
-                usuarioBanco.UsuarioCpf = usuarioAlterado.UsuarioCpf;
-                usuarioBanco.UsuarioEmail = usuarioAlterado.UsuarioEmail;
-                usuarioBanco.UsuarioSaldo = usuarioAlterado.UsuarioSaldo;
+                usuarioBanco.UsuarioNome = usuarioAlterado.usuarioNome;
+                usuarioBanco.UsuarioCpf = usuarioAlterado.usuarioCpf;
+                usuarioBanco.UsuarioEmail = usuarioAlterado.usuarioEmail;
+                usuarioBanco.UsuarioSaldo = usuarioAlterado.usuarioSaldo;
 
                 unitOfWork.Complete();
                 return true;
@@ -82,7 +82,7 @@ namespace AlmocoAPI.Domain
    
         public Boolean PostUsuario(UsuarioCadastro usuarioCadastrado)
         {
-            var usuarioBanco = unitOfWork.Usuarios.Find(x=> x.UsuarioCpf == usuarioCadastrado.UsuarioCpf);
+            var usuarioBanco = unitOfWork.Usuarios.Find(x=> x.UsuarioCpf == usuarioCadastrado.usuarioCpf);
             if (usuarioBanco.Count() > 0)
             {
                 
@@ -94,10 +94,10 @@ namespace AlmocoAPI.Domain
                 Usuario usuario = new Usuario()
                 {
 
-                    UsuarioCpf = usuarioCadastrado.UsuarioCpf,
-                    UsuarioNome = usuarioCadastrado.UsuarioNome,
-                    UsuarioSaldo = usuarioCadastrado.UsuarioSaldo,
-                    UsuarioEmail = usuarioCadastrado.UsuarioEmail
+                    UsuarioCpf = usuarioCadastrado.usuarioCpf,
+                    UsuarioNome = usuarioCadastrado.usuarioNome,
+                    UsuarioSaldo = usuarioCadastrado.usuarioSaldo,
+                    UsuarioEmail = usuarioCadastrado.usuarioEmail
 
                 };
                 unitOfWork.Usuarios.Add(usuario);
@@ -111,5 +111,19 @@ namespace AlmocoAPI.Domain
 
 
         }
+        public Boolean DeleteUsuario(int id)
+        {
+
+            Usuario usuario = unitOfWork.Usuarios.Find(x => x.UsuarioId == id).FirstOrDefault();
+            if (usuario == null)
+            {
+                return false;
+            }
+
+            unitOfWork.Usuarios.Remove(usuario);
+            unitOfWork.Complete();
+            return true;
+        }
+
     }
 }

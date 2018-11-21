@@ -7,15 +7,15 @@ namespace AlmocoAPI.Models
 {
     public class UsuarioComId
     {
-        public int UsuarioId { get; set; }
+        public int usuarioId { get; set; }
 
-        public long UsuarioCpf { get; set; }
+        public long usuarioCpf { get; set; }
 
-        public string UsuarioNome { get; set; }
+        public string usuarioNome { get; set; }
 
-        public double UsuarioSaldo { get; set; }
+        public double usuarioSaldo { get; set; }
 
-        public string UsuarioEmail { get; set; }
+        public string usuarioEmail { get; set; }
 
         public UsuarioComId()
         {
@@ -24,11 +24,11 @@ namespace AlmocoAPI.Models
 
         public UsuarioComId(Usuario usuario)
         {
-            UsuarioId = usuario.UsuarioId;
-            UsuarioCpf = usuario.UsuarioCpf;
-            UsuarioNome = usuario.UsuarioNome;
-            UsuarioSaldo = usuario.UsuarioSaldo;
-            UsuarioEmail = usuario.UsuarioEmail;
+            this.usuarioId = usuario.UsuarioId;
+            this.usuarioCpf = usuario.UsuarioCpf;
+            this.usuarioNome = usuario.UsuarioNome;
+            this.usuarioSaldo = usuario.UsuarioSaldo;
+            this.usuarioEmail = usuario.UsuarioEmail;
         }
     }
 }

@@ -7,9 +7,9 @@ namespace AlmocoAPI.Models
 {
     public class GrupoRetorno
     {
-        public long GrupoId { get; set; }
+        public long grupoId { get; set; }
 
-        public string GrupoNome { get; set; }
+        public string grupoNome { get; set; }
 
         public GrupoRetorno()
         {
@@ -18,8 +18,8 @@ namespace AlmocoAPI.Models
 
         public GrupoRetorno(Grupo grupo)
         {
-            GrupoId = grupo.GrupoId;
-            GrupoNome = grupo.GrupoNome;
+            this.grupoId = grupo.GrupoId;
+            this.grupoNome = grupo.GrupoNome;
         }
     }
 }

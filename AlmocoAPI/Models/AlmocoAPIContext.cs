@@ -17,6 +17,7 @@ namespace AlmocoAPI.Models
     
         public AlmocoAPIContext() : base("name=AlmocoAPIContext")
         {
+            Configuration.LazyLoadingEnabled = false;
         }
 
         public System.Data.Entity.DbSet<AlmocoAPI.Models.Usuario> Usuarios { get; set; }

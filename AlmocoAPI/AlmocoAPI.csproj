@@ -115,6 +115,12 @@
     <Compile Include="Domain\RestauranteService.cs" />
     <Compile Include="Domain\UsuarioService.cs" />
     <Compile Include="Domain\VotoService.cs" />
+    <Compile Include="DTO\EnqueteCadastro.cs" />
+    <Compile Include="DTO\GrupoCadastro.cs" />
+    <Compile Include="DTO\RestauranteCadastro.cs" />
+    <Compile Include="DTO\VotoAlterado.cs" />
+    <Compile Include="DTO\VotoCadastro.cs" />
+    <Compile Include="DTO\VotoSimples.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -125,6 +131,10 @@
     <Compile Include="Migrations\201811141600436_MudancaNxNRestauranteEnqueteFinal2.cs" />
     <Compile Include="Migrations\201811141600436_MudancaNxNRestauranteEnqueteFinal2.Designer.cs">
       <DependentUpon>201811141600436_MudancaNxNRestauranteEnqueteFinal2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811201219193_AdicaoSenhaUsuario.cs" />
+    <Compile Include="Migrations\201811201219193_AdicaoSenhaUsuario.Designer.cs">
+      <DependentUpon>201811201219193_AdicaoSenhaUsuario.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AlmocoAPIContext.cs" />
@@ -171,6 +181,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811141600436_MudancaNxNRestauranteEnqueteFinal2.resx">
       <DependentUpon>201811141600436_MudancaNxNRestauranteEnqueteFinal2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811201219193_AdicaoSenhaUsuario.resx">
+      <DependentUpon>201811201219193_AdicaoSenhaUsuario.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -15,9 +15,13 @@ using AlmocoAPI.Repositories;
 
 namespace AlmocoAPI.Controllers
 {
+    ///
+    /// <summary>
+    /// 	Controller responsável pelas operações com o usuário
+    /// </summary>
+    ///
     public class UsuariosController : ApiController
     {
-        private AlmocoAPIContext db = new AlmocoAPIContext();
 
         private UsuarioService usuarioService;
 
@@ -149,36 +153,30 @@ namespace AlmocoAPI.Controllers
             }
             return Content(HttpStatusCode.BadRequest, "Não foi possivel cadastrar este usuario, CPF já existente");
 
-            Usuario usuario = new Usuario()
-            {
-
-                UsuarioCpf = usuariocadastro.UsuarioCpf,
-                UsuarioNome = usuariocadastro.UsuarioNome,
-                UsuarioSaldo = usuariocadastro.UsuarioSaldo,
-                UsuarioEmail = usuariocadastro.UsuarioEmail
-
-            };
-
-            db.Usuarios.Add(usuario);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = usuario.UsuarioId }, usuario);
+           
         }
 
+        ///
+        /// <summary>
+        /// 	Deleta um usuário de posse do seu id
+        /// </summary>
+        ///
         // DELETE: api/Usuarios/5
         [ResponseType(typeof(Usuario))]
         public IHttpActionResult DeleteUsuario(int id)
         {
-            Usuario usuario = db.Usuarios.Find(id);
-            if (usuario == null)
+            this.usuarioService = new UsuarioService();
+            var resposta = this.usuarioService.DeleteUsuario(id);
+
+            if (resposta == false)
             {
-                return NotFound();
+                return Content(HttpStatusCode.NotFound, "Usuario não encontrado");
             }
-
-            db.Usuarios.Remove(usuario);
-            db.SaveChanges();
-
-            return Ok(usuario);
+            else
+            {
+                return Content(HttpStatusCode.OK, "Usuario deletado com sucesso");
+            }
+            
         }
 
         

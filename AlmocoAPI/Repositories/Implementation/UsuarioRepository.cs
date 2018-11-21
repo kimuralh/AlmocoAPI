@@ -11,6 +11,7 @@ namespace AlmocoAPI.Repositories.Implementation
     {
         public UsuarioRepository(AlmocoAPIContext context) : base(context)
         {
+            
         }
     }
 }

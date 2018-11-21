@@ -26,7 +26,7 @@ namespace AlmocoAPI.Controllers
         [ResponseType(typeof(Enquete))]
         public IHttpActionResult GetEnquete(int id)
         {
-            Enquete enquete = db.Enquetes.Find(id);
+            Enquete enquete = db.Enquetes.Find(id) ;
             if (enquete == null)
             {
                 return NotFound();

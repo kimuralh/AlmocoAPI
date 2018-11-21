@@ -17,6 +17,9 @@ namespace AlmocoAPI.Models
         [Required]
         public string UsuarioNome { get; set; }
 
+        [Required]
+        public string UsuarioSenha { get; set; }
+
         public double UsuarioSaldo { get; set; }
 
         public string UsuarioEmail { get; set; }
