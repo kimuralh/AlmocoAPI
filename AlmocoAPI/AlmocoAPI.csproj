@@ -116,11 +116,16 @@
     <Compile Include="Domain\UsuarioService.cs" />
     <Compile Include="Domain\VotoService.cs" />
     <Compile Include="DTO\EnqueteCadastro.cs" />
+    <Compile Include="DTO\EnqueteRetorno.cs" />
     <Compile Include="DTO\GrupoCadastro.cs" />
+    <Compile Include="DTO\GrupoDetalhe.cs" />
     <Compile Include="DTO\RestauranteCadastro.cs" />
+    <Compile Include="DTO\RestauranteRetorno.cs" />
+    <Compile Include="DTO\VencedorEnquete.cs" />
     <Compile Include="DTO\VotoAlterado.cs" />
     <Compile Include="DTO\VotoCadastro.cs" />
     <Compile Include="DTO\VotoSimples.cs" />
+    <Compile Include="DTO\VotosQuantidade.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -135,6 +140,14 @@
     <Compile Include="Migrations\201811201219193_AdicaoSenhaUsuario.cs" />
     <Compile Include="Migrations\201811201219193_AdicaoSenhaUsuario.Designer.cs">
       <DependentUpon>201811201219193_AdicaoSenhaUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811220157110_MudancaIntGrupo.cs" />
+    <Compile Include="Migrations\201811220157110_MudancaIntGrupo.Designer.cs">
+      <DependentUpon>201811220157110_MudancaIntGrupo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201811221429259_MudancaVirtual.cs" />
+    <Compile Include="Migrations\201811221429259_MudancaVirtual.Designer.cs">
+      <DependentUpon>201811221429259_MudancaVirtual.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AlmocoAPIContext.cs" />
@@ -184,6 +197,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201811201219193_AdicaoSenhaUsuario.resx">
       <DependentUpon>201811201219193_AdicaoSenhaUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811220157110_MudancaIntGrupo.resx">
+      <DependentUpon>201811220157110_MudancaIntGrupo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201811221429259_MudancaVirtual.resx">
+      <DependentUpon>201811221429259_MudancaVirtual.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

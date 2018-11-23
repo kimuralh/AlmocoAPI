@@ -9,6 +9,7 @@ namespace AlmocoAPI.Repositories.Implementation
 {
     public class RestauranteRepository : Repository<Restaurante>, IRestauranteRepository
     {
+        AlmocoAPIContext context = new AlmocoAPIContext();
         public RestauranteRepository(AlmocoAPIContext context) : base(context)
         {
         }

@@ -34,7 +34,9 @@ namespace AlmocoAPI.Domain
             var usuario = unitOfWork.Usuarios.Get(id);
             if (usuario == null)
             {
-                return new UsuarioComIdComGrupo();
+                UsuarioComIdComGrupo usuarioComIdNull = null;
+                return usuarioComIdNull;
+                //return new UsuarioComIdComGrupo();
             }
             //var UsuarioComId = new UsuarioComId(usuario);
 
@@ -97,8 +99,8 @@ namespace AlmocoAPI.Domain
                     UsuarioCpf = usuarioCadastrado.usuarioCpf,
                     UsuarioNome = usuarioCadastrado.usuarioNome,
                     UsuarioSaldo = usuarioCadastrado.usuarioSaldo,
-                    UsuarioEmail = usuarioCadastrado.usuarioEmail
-
+                    UsuarioEmail = usuarioCadastrado.usuarioEmail,
+                    UsuarioSenha = usuarioCadastrado.usuarioSenha
                 };
                 unitOfWork.Usuarios.Add(usuario);
                 //var usuarioNovo = unitOfWork.Usuarios.Find(x => x.UsuarioCpf == usuario.UsuarioCpf).FirstOrDefault();

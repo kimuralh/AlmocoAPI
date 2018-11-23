@@ -8,111 +8,144 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using AlmocoAPI.Domain;
+using AlmocoAPI.DTO;
 using AlmocoAPI.Models;
 
 namespace AlmocoAPI.Controllers
 {
     public class EnquetesController : ApiController
     {
-        private AlmocoAPIContext db = new AlmocoAPIContext();
+       
+        private EnqueteService enqueteService;
 
-        // GET: api/Enquetes
-        public IQueryable<Enquete> GetEnquetes()
+        ///
+        /// <summary>
+        /// 	Retorna o numero de enquetes que o grupo com este id possui
+        /// </summary>
+        ///
+        [HttpGet]
+        [Route("grupos/{idGrupo}/numeroEnquetes")]
+        public int GetNumeroEnquetes(int idGrupo)
         {
-            return db.Enquetes;
+            this.enqueteService = new EnqueteService();
+            int numero = enqueteService.GetNumeroEnquetes(idGrupo);
+            return numero;
         }
 
-        // GET: api/Enquetes/5
-        [ResponseType(typeof(Enquete))]
-        public IHttpActionResult GetEnquete(int id)
-        {
-            Enquete enquete = db.Enquetes.Find(id) ;
-            if (enquete == null)
-            {
-                return NotFound();
-            }
 
-            return Ok(enquete);
+        ///
+        /// <summary>
+        /// 	Paginação das enquetes do grupo com este id, considerando pagina atual e o numero de elementos por pagina
+        /// </summary>
+        ///
+        [HttpGet]
+        [Route("grupos/{idGrupo}/enquetes/{pagina}/{tamanhoPagina}")]
+        public IEnumerable<EnqueteRetorno> GetPaginaEnquetes(int idGrupo, int pagina, int tamanhoPagina)
+        {
+            this.enqueteService = new EnqueteService();
+            var enquetes = this.enqueteService.GetPaginaEnquetes(idGrupo,pagina,tamanhoPagina);
+            return enquetes;
         }
 
-        // PUT: api/Enquetes/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutEnquete(int id, Enquete enquete)
+        ///
+        /// <summary>
+        /// 	Cadastra uma enquete de posse do idGrupo à qual essa enquete irá pertencer
+        /// </summary>
+        ///
+        // POST: api/enquetes
+        [HttpPost]
+        [Route("enquetes/")]
+        public IHttpActionResult PostEnquete(EnqueteCadastro enqueteCadastro)
         {
-            if (!ModelState.IsValid)
+            this.enqueteService = new EnqueteService();
+            var resultado = this.enqueteService.PostEnquete(enqueteCadastro);
+
+            if (resultado == null)
             {
-                return BadRequest(ModelState);
+                return Content(HttpStatusCode.BadRequest, "Não foi possivel cadastrar este enquete neste grupo");
+                
+            }
+            else
+            {
+                return Content(HttpStatusCode.OK, "Enquete cadastrada com sucesso no grupo de id" + resultado.Grupo.GrupoId);
             }
 
-            if (id != enquete.EnqueteId)
-            {
-                return BadRequest();
-            }
 
-            db.Entry(enquete).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EnqueteExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Enquetes
-        [ResponseType(typeof(Enquete))]
-        public IHttpActionResult PostEnquete(Enquete enquete)
+        ///
+        /// <summary>
+        /// 	Adiciona um restaurante existente à uma enquete existente
+        /// </summary>
+        ///
+        // POST: api/enquetes/5/restaurantes/
+        [Route("enquetes/{idEnquete}/restaurantes")]
+
+        public IHttpActionResult AdicionaRestauranteEnquete(int idEnquete, [FromBody] int idRestaurante)
         {
-            if (!ModelState.IsValid)
+            this.enqueteService = new EnqueteService();
+            var retorno = this.enqueteService.AdicionaRestauranteEnquete(idEnquete, idRestaurante);
+            if (retorno == null)
             {
-                return BadRequest(ModelState);
+                return Content(HttpStatusCode.BadRequest, "Não foi possivel cadastrar esse restaurante nesta enquete");
             }
+            return Content(HttpStatusCode.OK, "Restaurante " + retorno.RestauranteNome + " foi cadastrado na enquete de id " + idEnquete + "com sucesso");
 
-            db.Enquetes.Add(enquete);
-            db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = enquete.EnqueteId }, enquete);
         }
 
-        // DELETE: api/Enquetes/5
-        [ResponseType(typeof(Enquete))]
-        public IHttpActionResult DeleteEnquete(int id)
+        ///
+        /// <summary>
+        /// 	Retorna os restaurantes cadastrados na enquete
+        /// </summary>
+        ///
+        [HttpGet]
+        [Route("enquetes/{idEnquete}/restaurantes")]
+        public IEnumerable<RestauranteRetorno> GetRestaurantesEnquete(int idEnquete)
         {
-            Enquete enquete = db.Enquetes.Find(id);
-            if (enquete == null)
+            this.enqueteService = new EnqueteService();
+            var restaurantes = enqueteService.GetRestaurantesEnquete(idEnquete);
+            return restaurantes;
+        }
+
+        ///
+        /// <summary>
+        /// 	Encerra a Enquete e traz de volta o vencedor
+        /// </summary>
+        ///
+        [HttpPut]
+        [Route("enquetes/{idEnquete}/encerrar")]
+        public IHttpActionResult encerrarEnquete(int idEnquete)
+        {
+            this.enqueteService = new EnqueteService();
+            var retorno = this.enqueteService.encerrarEnquete(idEnquete);
+            if (retorno == null)
             {
-                return NotFound();
+                return Content(HttpStatusCode.BadRequest, "Não foi possivel gerar o vencedor dessa enquete");
             }
-
-            db.Enquetes.Remove(enquete);
-            db.SaveChanges();
-
-            return Ok(enquete);
+            return Content(HttpStatusCode.OK, "Restaurante " + retorno.FirstOrDefault().restauranteNome + " foi o vencedor da enquete com "+ retorno.FirstOrDefault().restauranteVotos);
         }
 
-        protected override void Dispose(bool disposing)
+        /*
+        ///
+        /// <summary>
+        /// 	Encerra a Enquete sorteando o vencedor
+        /// </summary>
+        ///
+        [HttpGet]
+        [Route("enquetes/{idEnquete}/sortear")]
+        public IHttpActionResult sortearEnquete(int idEnquete)
         {
-            if (disposing)
+            this.enqueteService = new EnqueteService();
+            var retorno = this.enqueteService.sortearEnquete(idEnquete);
+            if (retorno == null)
             {
-                db.Dispose();
+                return Content(HttpStatusCode.BadRequest, "Não foi possivel gerar o vencedor dessa enquete");
             }
-            base.Dispose(disposing);
+            return Content(HttpStatusCode.OK, "Restaurante " + retorno+ " foi o vencedor da enquete ");
         }
+        */
 
-        private bool EnqueteExists(int id)
-        {
-            return db.Enquetes.Count(e => e.EnqueteId == id) > 0;
-        }
     }
 }

@@ -8,6 +8,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using AlmocoAPI.Domain;
+using AlmocoAPI.DTO;
 using AlmocoAPI.Models;
 using AlmocoAPI.Repositories;
 
@@ -17,112 +19,173 @@ namespace AlmocoAPI.Controllers
     {
         private AlmocoAPIContext db = new AlmocoAPIContext();
 
-        // GET: api/Grupos
-        public IEnumerable<Grupo> GetGrupos()
+        private GrupoService grupoService;
+        ///
+        /// <summary>
+        /// 	Retorna todos os grupos
+        /// </summary>
+        ///
+        // GET: api/grupos
+        [HttpGet]
+        [Route("grupos")]
+        public IEnumerable<GrupoRetorno> GetGrupos()
         {
-            
-            var unitOfWork = new UnitOfWork(new AlmocoAPIContext());
-
-            var grupos = unitOfWork.Grupos.GetAll();
-
-            unitOfWork.Complete();
+            this.grupoService = new GrupoService();
+            var grupos = grupoService.GetGrupos();
 
             return grupos;
-
-
         }
 
+        ///
+        /// <summary>
+        /// 	Retorna o grupo com o id
+        /// </summary>
+        ///
         // GET: api/Grupos/5
-        [ResponseType(typeof(Grupo))]
-        public IHttpActionResult GetGrupo(long id)
+        [Route("grupos/{idGrupo}")]
+
+        public IHttpActionResult GetGrupo(int idGrupo)
         {
-            Grupo grupo = db.Grupos.Find(id);
+            this.grupoService = new GrupoService();
+
+            var grupo = grupoService.GetGrupo(idGrupo);
             if (grupo == null)
             {
-                return NotFound();
+                return Content(HttpStatusCode.NotFound , "Grupo não encontrado");
             }
-
-            return Ok(grupo);
+            return Content(HttpStatusCode.OK, grupo);
         }
+        //=======================================================
+        ///
+        /// <summary>
+        /// 	Retorna os usuarios do grupo
+        /// </summary>
+        ///
+        // GET: api/grupos/5/membros
+        [Route("grupos/{idGrupo}/membros")]
 
-        // PUT: api/Grupos/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutGrupo(long id, Grupo grupo)
+        public IHttpActionResult GetMembrosGrupo(int idGrupo)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            this.grupoService = new GrupoService();
 
-            if (id != grupo.GrupoId)
-            {
-                return BadRequest();
-            }
+            var membros = grupoService.GetMembrosGrupo(idGrupo);
 
-            db.Entry(grupo).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!GrupoExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            return Content(HttpStatusCode.OK, membros);
         }
+        
+        ///
+        /// <summary>
+        /// 	Adiciona um usuario existente ao grupo
+        /// </summary>
+        ///
+        // POST: api/grupos/5/membros/1
+        [Route("grupos/{idGrupo}/membros/")]
 
-        // POST: api/Grupos
-        [ResponseType(typeof(Grupo))]
-        public IHttpActionResult PostGrupo(Grupo grupo)
+        public IHttpActionResult AdicionaMembroGrupo(int idGrupo,[FromBody] int idUsuario)
         {
-            if (!ModelState.IsValid)
+            this.grupoService = new GrupoService();
+            var retorno = this.grupoService.AdicionaMembroGrupo(idGrupo, idUsuario);
+            if (retorno == null)
             {
-                return BadRequest(ModelState);
+                return Content(HttpStatusCode.BadRequest, "Não foi possivel cadastrar esse usuario neste grupo");
+            }
+            return Content(HttpStatusCode.OK, "Usuario "+ retorno.UsuarioNome +" foi cadastrado no grupo de id"+idGrupo+"com sucesso");
+
+        }
+        /*
+        //==========================================================
+        ///
+        /// <summary>
+        /// 	Retorna os restaurantes do grupo
+        /// </summary>
+        ///
+        // GET: api/grupos/5/restaurantes
+        [Route("grupos/{idGrupo}/restaurantes")]
+
+        public IHttpActionResult GetRestaurantesGrupo(int idGrupo)
+        {
+            this.grupoService = new GrupoService();
+
+            var restaurantes = grupoService.GetRestaurantesGrupo(idGrupo);
+            
+            return Content(HttpStatusCode.OK, restaurantes);
+        }
+        */
+        
+        ///
+        /// <summary>
+        /// 	Adiciona um restaurante existente ao grupo
+        /// </summary>
+        ///
+        // POST: api/grupos/5/restaurantes/
+        [Route("grupos/{idGrupo}/restaurantes/")]
+
+        public IHttpActionResult AdicionaRestauranteGrupo(int idGrupo, [FromBody] int idRestaurante)
+        {
+            this.grupoService = new GrupoService();
+            var retorno = this.grupoService.AdicionaRestauranteGrupo(idGrupo, idRestaurante);
+            if (retorno == null)
+            {
+                return Content(HttpStatusCode.BadRequest, "Não foi possivel cadastrar esse restaurante neste grupo");
+            }
+            return Content(HttpStatusCode.OK, "Restaurante " + retorno.RestauranteNome + " foi cadastrado no grupo de id " + idGrupo + "com sucesso");
+
+
+        }
+
+
+
+
+
+        /*
+        ///
+        /// <summary>
+        /// 	Cadastra um grupo de acordo com as informações de cadastro
+        /// 	Detalhe que a adição de membros se faz em outro endpoint
+        /// </summary>
+        ///
+        // POST: api/grupos
+        [HttpPost]
+        [Route("grupos/")]
+        public IHttpActionResult PostCadastroGrupo([FromBody] GrupoCadastro grupo)
+        {
+            this.grupoService = new GrupoService();
+            var resultado = this.grupoService.PostCadastroGrupo(grupo);
+            if (resultado != false)
+            {
+                return Content(HttpStatusCode.OK, "Grupo cadastrado com sucesso");
+            }
+            return Content(HttpStatusCode.BadRequest, "Não foi possivel cadastrar este Grupo");
+
+
+        }
+        */
+
+        ///
+        /// <summary>
+        /// 	Deleta um grupo de posse do seu id
+        /// </summary>
+        ///
+        // DELETE: api/grupos/5
+        [HttpDelete]
+        [Route("grupos/{idGrupo}")]
+   
+        public IHttpActionResult DeleteGrupo(int id)
+        {
+            this.grupoService = new GrupoService();
+            var resposta = this.grupoService.DeleteGrupo(id);
+
+            if (resposta == false)
+            {
+                return Content(HttpStatusCode.NotFound, "Grupo não encontrado");
+            }
+            else
+            {
+                return Content(HttpStatusCode.OK, "Grupo deletado com sucesso");
             }
 
-            db.Grupos.Add(grupo);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = grupo.GrupoId }, grupo);
         }
 
-        // DELETE: api/Grupos/5
-        [ResponseType(typeof(Grupo))]
-        public IHttpActionResult DeleteGrupo(long id)
-        {
-            Grupo grupo = db.Grupos.Find(id);
-            if (grupo == null)
-            {
-                return NotFound();
-            }
 
-            db.Grupos.Remove(grupo);
-            db.SaveChanges();
-
-            return Ok(grupo);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool GrupoExists(long id)
-        {
-            return db.Grupos.Count(e => e.GrupoId == id) > 0;
-        }
     }
 }

@@ -9,7 +9,7 @@ namespace AlmocoAPI.Models
     public class Grupo
     {
         [Key]
-        public long GrupoId { get; set; }
+        public int GrupoId { get; set; }
 
         [Required]
         public string GrupoNome { get; set; }

@@ -17,6 +17,8 @@ namespace AlmocoAPI.Models
 
         public string usuarioEmail { get; set; }
 
+
+
         public UsuarioComId()
         {
 
@@ -29,6 +31,7 @@ namespace AlmocoAPI.Models
             this.usuarioNome = usuario.UsuarioNome;
             this.usuarioSaldo = usuario.UsuarioSaldo;
             this.usuarioEmail = usuario.UsuarioEmail;
+ 
         }
     }
 }

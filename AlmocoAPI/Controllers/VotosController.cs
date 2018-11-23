@@ -100,9 +100,9 @@ namespace AlmocoAPI.Controllers
         ///
             // POST: api/Votos
         [HttpPost]
-        [Route("Enquete/")]
+        [Route("enquete/")]
 
-        public IHttpActionResult PostVoto(VotoCadastro voto)
+        public IHttpActionResult PostVoto([FromBody] VotoCadastro voto)
         {
 
             this.votoService = new VotoService();
@@ -112,7 +112,7 @@ namespace AlmocoAPI.Controllers
             {
                 return Content(HttpStatusCode.OK, "Voto Cadastrado com sucesso");
             }
-            return Content(HttpStatusCode.BadRequest, "Não foi possivel votar nesta enquete");
+            return Content(HttpStatusCode.BadRequest, "Não foi possivel votar neste enquete");
             
 
         }
@@ -123,7 +123,20 @@ namespace AlmocoAPI.Controllers
         /// </summary>
         ///
         // DELETE: api/Votos/5
+        public IHttpActionResult DeleteVoto(int idVoto)
+        {
 
+            this.votoService = new VotoService();
+            var resultado = this.votoService.DeleteVoto(idVoto);
+
+            if (resultado)
+            {
+                return Content(HttpStatusCode.OK, "Voto deletado com sucesso");
+            }
+            return Content(HttpStatusCode.BadRequest, "Não foi possivel deletar esse voto");
+
+
+        }
     }
 
 }

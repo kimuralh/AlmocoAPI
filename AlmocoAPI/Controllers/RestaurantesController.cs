@@ -8,6 +8,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using AlmocoAPI.Domain;
+using AlmocoAPI.DTO;
 using AlmocoAPI.Models;
 
 namespace AlmocoAPI.Controllers
@@ -15,11 +17,16 @@ namespace AlmocoAPI.Controllers
     public class RestaurantesController : ApiController
     {
         private AlmocoAPIContext db = new AlmocoAPIContext();
-
+        private RestauranteService restauranteService;
         // GET: api/Restaurantes
-        public IQueryable<Restaurante> GetRestaurantes()
+        [HttpGet]
+        [Route("restaurantes/")]
+        public IEnumerable<Restaurante> GetRestaurantes()
         {
-            return db.Restaurantes;
+            this.restauranteService = new RestauranteService();
+
+            return this.restauranteService.GetRestaurantes();
+
         }
 
         // GET: api/Restaurantes/5
@@ -70,19 +77,24 @@ namespace AlmocoAPI.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Restaurantes
-        [ResponseType(typeof(Restaurante))]
-        public IHttpActionResult PostRestaurante(Restaurante restaurante)
+        ///
+        /// <summary>
+        /// 	Registra um restaurante
+        /// </summary>
+        ///
+        // POST: api/restaurante
+        [HttpPost]
+        [Route("restaurantes/")]
+  
+        public IHttpActionResult PostRestaurante([FromBody] RestauranteCadastro restaurante)  
         {
-            if (!ModelState.IsValid)
+            this.restauranteService = new RestauranteService();
+            var retorno = this.restauranteService.PostRestaurante(restaurante);
+            if (retorno == null)
             {
-                return BadRequest(ModelState);
+                return Content(HttpStatusCode.BadRequest, "Não foi possivel cadastrar esse restaurante");
             }
-
-            db.Restaurantes.Add(restaurante);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = restaurante.RestauranteId }, restaurante);
+            return Content(HttpStatusCode.OK, "Restaurante " + retorno.RestauranteNome + " foi cadastrado com sucesso");
         }
 
         // DELETE: api/Restaurantes/5

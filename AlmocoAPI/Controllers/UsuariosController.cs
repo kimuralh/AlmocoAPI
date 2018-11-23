@@ -81,7 +81,15 @@ namespace AlmocoAPI.Controllers
         public IHttpActionResult GetUsuario(int idUsuario)
         {
             this.usuarioService = new UsuarioService();
-            return Ok(this.usuarioService.GetUsuario(idUsuario));
+            if (this.usuarioService.GetUsuario(idUsuario) != null)
+            {
+                return Ok(this.usuarioService.GetUsuario(idUsuario));
+            }
+            else
+            {
+                return Content(HttpStatusCode.NotFound, "Não foi possivel achar este usuario id "+ idUsuario);
+            }
+            
 
         }
 
@@ -141,8 +149,8 @@ namespace AlmocoAPI.Controllers
         /// </summary>
         ///
         // POST: api/Usuarios
-        //[ResponseType(typeof(Usuario))]
-        [ResponseType(typeof(UsuarioCadastro))]
+        [HttpPost]
+        [Route("usuarios/")]
         public IHttpActionResult PostUsuario(UsuarioCadastro usuariocadastro)
         {
             this.usuarioService = new UsuarioService();

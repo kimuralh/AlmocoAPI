@@ -9,5 +9,6 @@ namespace AlmocoAPI.Repositories.Implementation
 {
     public interface IUsuarioRepository : IRepository<Usuario>
     {
+        
     }
 }

@@ -26,9 +26,22 @@ namespace AlmocoAPI.Models
             this.usuarioNome = usuario.UsuarioNome;
             this.usuarioSaldo = usuario.UsuarioSaldo;
             this.usuarioEmail = usuario.UsuarioEmail;
-            var grupos = from u in usuario.Grupos
+            var gruposVerifica = usuario.Grupos;
+            if (gruposVerifica != null)
+            {
+                var grupos = (from u in usuario.Grupos
+                              select new GrupoRetorno()
 
-                         select new GrupoRetorno(u);
+                              {
+                                  grupoId = u.GrupoId,
+                                  grupoNome = u.GrupoNome
+                              }).ToList();
+                this.grupos = grupos;
+
+
+            }
+
+
             this.grupos = grupos;
         }
         public UsuarioComIdComGrupo()

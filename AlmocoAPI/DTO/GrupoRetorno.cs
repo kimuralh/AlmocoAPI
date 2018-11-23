@@ -7,7 +7,7 @@ namespace AlmocoAPI.Models
 {
     public class GrupoRetorno
     {
-        public long grupoId { get; set; }
+        public int grupoId { get; set; }
 
         public string grupoNome { get; set; }
 

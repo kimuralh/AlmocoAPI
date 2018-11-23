@@ -90,10 +90,26 @@ namespace AlmocoAPI.Domain
         public Boolean PutVoto(VotoAlterado voto)
         {
             var votoBanco = unitOfWork.Votos.PutVoto(voto);
+            unitOfWork.Complete();
             return votoBanco;
 
         }
 
-
+        public Boolean DeleteVoto(int idVoto)
+        {
+            var votoBanco = unitOfWork.Votos.Get(idVoto);
+            if (votoBanco == null)
+            {
+                unitOfWork.Complete();
+                return false;
+            }
+            else
+            {
+                
+                unitOfWork.Votos.Remove(votoBanco);
+                unitOfWork.Complete();
+                return true;
+            }
+        }
     }
 }
